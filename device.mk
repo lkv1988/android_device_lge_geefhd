@@ -21,6 +21,12 @@ PRODUCT_PACKAGES := \
 	lights.msm8960 \
 	libbt-vendor
 
+PRODUCT_COPY_FILES += \
+    device/lge/geefhd_hk/camera_proprietaries/camera.msm8960.so:system/lib/hw/camera.msm8960.so \
+    device/lge/geefhd_hk/camera_proprietaries/libHDR.so:system/lib/libHDR.so \
+    device/lge/geefhd_hk/camera_proprietaries/libmmcamera_interface.so:system/lib/libmmcamera_interface.so \
+    device/lge/geefhd_hk/camera_proprietaries/libmmjpeg_interface.so:system/lib/libmmjpeg_interface.so \
+
 # Inherit from geefhd-common
 $(call inherit-product, device/lge/geefhd-common/geefhd-common.mk)
 
