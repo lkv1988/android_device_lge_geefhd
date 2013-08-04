@@ -9,6 +9,10 @@ PRODUCT_COPY_FILES += \
 	device/lge/geefhd_hk/ramdisk/init.geefhd_hk.rc:root/init.geefhd_hk.rc \
 	device/lge/geefhd_hk/ramdisk/ueventd.geefhd_hk.rc:root/ueventd.geefhd_hk.rc
 
+PRODUCT_COPY_FILES += \
+    device/lge/geefhd_hk/vold.fstab:system/etc/vold.fstab \
+	device/lge/geefhd_hk/config/01brightness:system/etc/init.d/01brightness \
+
 PRODUCT_PACKAGES := \
 	lights.msm8960
 
