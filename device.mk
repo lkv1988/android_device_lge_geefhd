@@ -5,6 +5,10 @@ DEVICE_PACKAGE_OVERLAYS += device/lge/geefhd_hk/overlay
 ## common overlays
 DEVICE_PACKAGE_OVERLAYS += device/lge/geefhd-common/overlay
 
+PRODUCT_COPY_FILES += \
+	device/lge/geefhd_hk/ramdisk/init.geefhd_hk.rc:root/init.geefhd_hk.rc \
+	device/lge/geefhd_hk/ramdisk/ueventd.geefhd_hk.rc:root/ueventd.geefhd_hk.rc
+
 PRODUCT_PACKAGES := \
 	lights.msm8960
 
