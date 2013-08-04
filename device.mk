@@ -12,9 +12,14 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/lge/geefhd_hk/vold.fstab:system/etc/vold.fstab \
 	device/lge/geefhd_hk/config/01brightness:system/etc/init.d/01brightness \
+    device/lge/geefhd_hk/config/gps.conf:system/etc/gps.conf \
+    device/lge/geefhd_hk/prebuilt/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so \
+    device/lge/geefhd_hk/config/BCM4334B0_002.001.013.0271.0333.hcd:system/etc/firmware/BCM4334B0_002.001.013.0271.0333.hcd \
+    device/lge/geefhd_hk/config/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
 
 PRODUCT_PACKAGES := \
-	lights.msm8960
+	lights.msm8960 \
+	libbt-vendor
 
 # Inherit from geefhd-common
 $(call inherit-product, device/lge/geefhd-common/geefhd-common.mk)
@@ -32,7 +37,10 @@ PRODUCT_COPY_FILES += \
 # Enable for debugging
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.debuggable=1 \
-    persist.service.adb.enable=1
+    persist.service.adb.enable=1 \
+
+##  persist.sys.strictmode.visual=0 \
+##	persist.sys.strictmode.disable=true
 
 # Do not power down SIM card when modem is sent to Low Power Mode.
 PRODUCT_PROPERTY_OVERRIDES += \
