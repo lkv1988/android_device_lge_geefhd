@@ -14,7 +14,11 @@ PRODUCT_COPY_FILES += \
 	device/lge/geefhd_hk/config/01brightness:system/etc/init.d/01brightness \
     device/lge/geefhd_hk/config/gps.conf:system/etc/gps.conf \
     device/lge/geefhd_hk/prebuilt/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so \
-	device/lge/geefhd_hk/prebuilt/chargerlogo:sbin/chargerlogo \
+	device/lge/geefhd_hk/prebuilt/chargerlogo:root/sbin/chargerlogo \
+    device/lge/geefhd_hk/prebuilt/CE170F00.bin:root/sbin/CE170F00.bin \
+    device/lge/geefhd_hk/prebuilt/CE170F01.bin:root/sbin/CE170F01.bin \
+    device/lge/geefhd_hk/prebuilt/CE170F02.bin:root/sbin/CE170F02.bin \
+    device/lge/geefhd_hk/prebuilt/CE170F03.bin:root/sbin/CE170F03.bin \
     device/lge/geefhd_hk/config/BCM4334B0_002.001.013.0271.0333.hcd:system/etc/firmware/BCM4334B0_002.001.013.0271.0333.hcd \
     device/lge/geefhd_hk/config/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
 
