@@ -20,6 +20,7 @@ TARGET_KERNEL_CONFIG := geefhd_hk_defconfig
 #BOARD_HAS_NO_SELECT_BUTTON := true
 # assert
 TARGET_OTA_ASSERT_DEVICE := geefhd,geefhd_hk,gkatt
+TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./device/lge/geefhd_hk/releasetools/ota_from_target_files
 
 # inherit from the proprietary version
 -include vendor/lge/geefhd/BoardConfigVendor.mk
