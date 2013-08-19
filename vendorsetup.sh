@@ -16,3 +16,4 @@
 
 add_lunch_combo cm_geefhd_hk-userdebug
 add_lunch_combo cm_geefhd_hk-eng
+add_lunch_combo cm_geefhd_hk-user

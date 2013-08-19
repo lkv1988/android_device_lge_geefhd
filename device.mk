@@ -13,8 +13,6 @@ PRODUCT_COPY_FILES += \
     device/lge/geefhd_hk/vold.fstab:system/etc/vold.fstab \
 	device/lge/geefhd_hk/config/01brightness:system/etc/init.d/01brightness \
     device/lge/geefhd_hk/config/gps.conf:system/etc/gps.conf \
-    device/lge/geefhd_hk/prebuilt/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so \
-	device/lge/geefhd_hk/prebuilt/chargerlogo:sbin/chargerlogo \
     device/lge/geefhd_hk/config/BCM4334B0_002.001.013.0271.0333.hcd:system/etc/firmware/BCM4334B0_002.001.013.0271.0333.hcd \
     device/lge/geefhd_hk/config/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
 
