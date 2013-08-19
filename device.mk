@@ -22,14 +22,6 @@ PRODUCT_PACKAGES := \
 	lights.msm8960 \
 	libbt-vendor
 
-PRODUCT_COPY_FILES += \
-    device/lge/geefhd_hk/camera_proprietaries/camera.msm8960.so:system/lib/hw/camera.msm8960.so \
-    device/lge/geefhd_hk/camera_proprietaries/libHDR.so:system/lib/libHDR.so \
-    device/lge/geefhd_hk/camera_proprietaries/libmmcamera_interface.so:system/lib/libmmcamera_interface.so \
-    device/lge/geefhd_hk/camera_proprietaries/libmmjpeg_interface.so:system/lib/libmmjpeg_interface.so \
-    device/lge/geefhd_hk/camera_proprietaries/libmorpho_image_stab31.so:system/lib/libmorpho_image_stab31.so \
-    device/lge/geefhd_hk/camera_proprietaries/libmorpho_jpeg_engine.so:system/lib/libmorpho_jpeg_engine.so \
-
 # Inherit from geefhd-common
 $(call inherit-product, device/lge/geefhd-common/geefhd-common.mk)
 
@@ -64,7 +56,3 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml
-
-# CameraHAL
-PRODUCT_PACKAGES += \
-   camera.geefhd_att_us
