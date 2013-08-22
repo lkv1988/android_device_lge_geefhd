@@ -16,7 +16,7 @@ TARGET_KERNEL_SOURCE := kernel/lge/geefhd
 TARGET_KERNEL_CONFIG := geefhd_hk_defconfig
 
 # assert
-TARGET_OTA_ASSERT_DEVICE := geefhd,geefhd_hk,gkatt
+TARGET_OTA_ASSERT_DEVICE := geefhd,geefhd_hk,geefhd_open_hk,gkatt
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./device/lge/geefhd_hk/releasetools/ota_from_target_files
 
 # inherit from the proprietary version
