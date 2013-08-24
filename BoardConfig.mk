@@ -13,7 +13,7 @@ BOARD_KERNEL_PAGESIZE := 2048
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000
 
 TARGET_KERNEL_SOURCE := kernel/lge/geefhd
-TARGET_KERNEL_CONFIG := geefhd_hk_defconfig
+TARGET_KERNEL_CONFIG := gkopenhk_bcm-perf_defconfig
 
 # assert
 TARGET_OTA_ASSERT_DEVICE := geefhd,geefhd_hk,geefhd_open_hk,gkatt
