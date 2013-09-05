@@ -7,10 +7,10 @@ DEVICE_PACKAGE_OVERLAYS += device/lge/geefhd-common/overlay
 
 PRODUCT_COPY_FILES += \
 	device/lge/geefhd_hk/ramdisk/init.geefhd_hk.rc:root/init.geefhd_hk.rc \
-	device/lge/geefhd_hk/ramdisk/ueventd.geefhd_hk.rc:root/ueventd.geefhd_hk.rc
+	device/lge/geefhd_hk/ramdisk/ueventd.geefhd_hk.rc:root/ueventd.geefhd_hk.rc \
+	device/lge/geefhd_hk/ramdisk/fstab.geefhd_hk:root/fstab.geefhd_hk
 
 PRODUCT_COPY_FILES += \
-    device/lge/geefhd_hk/vold.fstab:system/etc/vold.fstab \
 	device/lge/geefhd_hk/config/01brightness:system/etc/init.d/01brightness \
     device/lge/geefhd_hk/config/gps.conf:system/etc/gps.conf \
     device/lge/geefhd_hk/config/BCM4334B0_002.001.013.0271.0333.hcd:system/etc/firmware/BCM4334B0_002.001.013.0271.0333.hcd \

@@ -14,6 +14,9 @@ BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000
 
 TARGET_KERNEL_SOURCE := kernel/lge/geefhd
 TARGET_KERNEL_CONFIG := gkopenhk_bcm-perf_defconfig
+# Fstab
+TARGET_RECOVERY_FSTAB = device/lge/geefhd_hk/ramdisk/fstab.geefhd_hk
+RECOVERY_FSTAB_VERSION = 2
 
 # assert
 TARGET_OTA_ASSERT_DEVICE := geefhd,geefhd_hk,geefhd_open_hk,gkatt

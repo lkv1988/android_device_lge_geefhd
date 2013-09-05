@@ -18,8 +18,14 @@ on init
     symlink /storage/emulated/legacy /mnt/sdcard
     symlink /storage/emulated/legacy /storage/sdcard0
     symlink /mnt/shell/emulated/0 /storage/emulated/legacy
-    symlink /storage/sdcard1 /mnt/extSdcard
-    symlink /storage/sdcard1 /extSdcard
+    symlink /storage/sdcard1 /extSdCard
+    symlink /storage/sdcard1 /mnt/extSdCard
 
     setprop ro.usb.idproduct.mtp 631C
     setprop ro.usb.idproduct.mtp_adb 61F9
+
+on fs
+    # mount ALL THE THINGS
+    mount_all ./fstab.geefhd_hk
+    wait /dev/block/platform/msm_sdcc.1/by-name/modem
+    mount vfat /dev/block/platform/msm_sdcc.1/by-name/modem /firmware ro uid=1000,gid=1000,dmask=227,fmask=337
