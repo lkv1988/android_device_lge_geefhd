@@ -20,7 +20,7 @@ RECOVERY_FSTAB_VERSION = 2
 
 # assert
 TARGET_OTA_ASSERT_DEVICE := geefhd,geefhd_hk,geefhd_open_hk,gkatt
-TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./device/lge/geefhd_hk/releasetools/ota_from_target_files
+TARGET_RELEASETOOLS_EXTENSIONS := device/lge/geefhd_hk/loki
 
 # inherit from the proprietary version
 -include vendor/lge/geefhd/BoardConfigVendor.mk

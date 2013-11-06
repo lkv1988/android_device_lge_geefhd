@@ -14,6 +14,5 @@
 # limitations under the License.
 #
 
-add_lunch_combo cm_geefhd_hk-userdebug
-add_lunch_combo cm_geefhd_hk-eng
-add_lunch_combo cm_geefhd_hk-user
+add_lunch_combo aosp_e988-userdebug
+add_lunch_combo aosp_e988-eng

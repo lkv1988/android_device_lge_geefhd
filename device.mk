@@ -6,6 +6,9 @@ DEVICE_PACKAGE_OVERLAYS += device/lge/geefhd_hk/overlay
 DEVICE_PACKAGE_OVERLAYS += device/lge/geefhd-common/overlay
 
 PRODUCT_COPY_FILES += \
+    device/lge/geefhd_hk/kernel:kernel
+
+PRODUCT_COPY_FILES += \
 	device/lge/geefhd_hk/ramdisk/init.geefhd_hk.rc:root/init.geefhd_hk.rc \
 	device/lge/geefhd_hk/ramdisk/ueventd.geefhd_hk.rc:root/ueventd.geefhd_hk.rc \
 	device/lge/geefhd_hk/ramdisk/fstab.geefhd_hk:root/fstab.geefhd_hk
@@ -17,9 +20,14 @@ PRODUCT_COPY_FILES += \
     device/lge/geefhd_hk/config/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf \
 	device/lge/geefhd_hk/prebuilt/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so
 
-PRODUCT_PACKAGES := \
+PRODUCT_PACKAGES += \
 	lights.msm8960 \
 	libbt-vendor
+
+PRODUCT_PACKAGES += \
+    loki.sh \
+	loki_flash \
+	loki_patch
 
 # Inherit from geefhd-common
 $(call inherit-product, device/lge/geefhd-common/geefhd-common.mk)
