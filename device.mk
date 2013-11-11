@@ -21,8 +21,12 @@ PRODUCT_COPY_FILES += \
 	device/lge/geefhd_hk/prebuilt/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so
 
 PRODUCT_PACKAGES += \
+	libemoji
+
+PRODUCT_PACKAGES += \
 	lights.msm8960 \
-	libbt-vendor
+	libbt-vendor \
+	memtrack.msm8960
 
 PRODUCT_PACKAGES += \
     loki.sh \

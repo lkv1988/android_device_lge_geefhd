@@ -12,8 +12,8 @@ BOARD_KERNEL_PAGESIZE := 2048
 
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000
 
-TARGET_KERNEL_SOURCE := kernel/lge/geefhd
-TARGET_KERNEL_CONFIG := gkopenhk_bcm-perf_defconfig
+#TARGET_KERNEL_SOURCE := kernel/lge/geefhd
+#TARGET_KERNEL_CONFIG := gkopenhk_bcm-perf_defconfig
 # Fstab
 TARGET_RECOVERY_FSTAB = device/lge/geefhd_hk/ramdisk/fstab.geefhd_hk
 RECOVERY_FSTAB_VERSION = 2
