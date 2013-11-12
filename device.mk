@@ -21,7 +21,8 @@ PRODUCT_COPY_FILES += \
 	device/lge/geefhd_hk/prebuilt/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so
 
 PRODUCT_PACKAGES += \
-	libemoji
+	libemoji \
+	Launcher3
 
 PRODUCT_PACKAGES += \
 	lights.msm8960 \
