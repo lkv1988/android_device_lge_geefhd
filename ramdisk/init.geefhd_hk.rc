@@ -6,6 +6,7 @@ on init
     mkdir /storage/emulated 0555 root root
 
     #External storage directories
+    mkdir /mnt/media_rw_sdcard1 0700 media_rw media_rw
     mkdir /storage/sdcard1 0000 system system
 
     export EXTERNAL_STORAGE /storage/emulated/legacy
@@ -18,8 +19,6 @@ on init
     symlink /storage/emulated/legacy /mnt/sdcard
     symlink /storage/emulated/legacy /storage/sdcard0
     symlink /mnt/shell/emulated/0 /storage/emulated/legacy
-    symlink /storage/sdcard1 /extSdCard
-    symlink /storage/sdcard1 /mnt/extSdCard
 
     setprop ro.usb.idproduct.mtp 631C
     setprop ro.usb.idproduct.mtp_adb 61F9
