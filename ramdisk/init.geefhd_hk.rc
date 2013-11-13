@@ -6,8 +6,8 @@ on init
     mkdir /storage/emulated 0555 root root
 
     #External storage directories
-    mkdir /mnt/media_rw_sdcard1 0700 media_rw media_rw
     mkdir /storage/sdcard1 0000 system system
+    mkdir /storage/usb 0000 system system
 
     export EXTERNAL_STORAGE /storage/emulated/legacy
     export SECONDARY_STORAGE /storage/sdcard1
