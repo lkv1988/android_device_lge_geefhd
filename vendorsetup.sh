@@ -16,3 +16,4 @@
 
 add_lunch_combo aosp_e988-userdebug
 add_lunch_combo aosp_e988-eng
+. $(pwd)/device/lge/geefhd_hk/pacthes/applypatches.sh
