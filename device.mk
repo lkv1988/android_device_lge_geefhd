@@ -27,7 +27,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	lights.msm8960 \
 	libbt-vendor \
-	memtrack.msm8960
+	memtrack.msm8960 \
+	rild \
+	libril \
+	nfc.msm8960
 
 PRODUCT_PACKAGES += \
     loki.sh \
