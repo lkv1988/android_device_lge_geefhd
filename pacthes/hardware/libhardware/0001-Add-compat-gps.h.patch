@@ -1,0 +1,68 @@
+From f0da9d1cdba1459db31a4e9426a7d50f9d2e42f6 Mon Sep 17 00:00:00 2001
+From: Keven Liu <airk908@gmail.com>
+Date: Tue, 19 Nov 2013 10:10:18 +0800
+Subject: [PATCH] Add compat gps.h
+
+Signed-off-by: Keven Liu <airk908@gmail.com>
+---
+ include/hardware/gps.h | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/include/hardware/gps.h b/include/hardware/gps.h
+index 458b5b4..127ee2c 100644
+--- a/include/hardware/gps.h
++++ b/include/hardware/gps.h
+@@ -123,18 +123,40 @@ typedef uint16_t GpsAidingData;
+ #define GPS_DELETE_SADATA           0x0200
+ #define GPS_DELETE_RTI              0x0400
+ #define GPS_DELETE_CELLDB_INFO      0x8000
++#define GPS_DELETE_ALMANAC_CORR                  0x00001000
++#define GPS_DELETE_FREQ_BIAS_EST                 0x00002000
++#define GPS_DELETE_EPHEMERIS_GLO                 0x00004000
++#define GPS_DELETE_ALMANAC_GLO                   0x00008000
++#define GPS_DELETE_SVDIR_GLO                     0x00010000
++#define GPS_DELETE_SVSTEER_GLO                   0x00020000
++#define GPS_DELETE_ALMANAC_CORR_GLO              0x00040000
++#define GPS_DELETE_TIME_GPS                      0x00080000
++#define GPS_DELETE_TIME_GLO                      0x00100000
+ #define GPS_DELETE_ALL              0xFFFF
+ 
+ /** AGPS type */
+ typedef uint16_t AGpsType;
++#define AGPS_TYPE_INVALID       -1
++#define AGPS_TYPE_ANY           0
+ #define AGPS_TYPE_SUPL          1
+ #define AGPS_TYPE_C2K           2
++#define AGPS_TYPE_WWAN_ANY      3
++#define AGPS_TYPE_WIFI          4
++
++/** SSID length */
++#define SSID_BUF_SIZE (32+1)
+ 
+ typedef uint16_t AGpsSetIDType;
+ #define AGPS_SETID_TYPE_NONE    0
+ #define AGPS_SETID_TYPE_IMSI    1
+ #define AGPS_SETID_TYPE_MSISDN  2
+ 
++typedef int16_t AGpsBearerType;
++#define AGPS_APN_BEARER_INVALID    -1
++#define AGPS_APN_BEARER_IPV4        0
++#define AGPS_APN_BEARER_IPV6        1
++#define AGPS_APN_BEARER_IPV4V6      2
++
+ /**
+  * String length constants
+  */
+@@ -482,6 +504,9 @@ typedef struct {
+     AGpsType        type;
+     AGpsStatusValue status;
+     uint32_t        ipaddr;
++    char            ipv6_addr[16];
++    char            ssid[SSID_BUF_SIZE];
++    char            password[SSID_BUF_SIZE];
+ } AGpsStatus;
+ 
+ /** Callback with AGPS status information.
+-- 
+1.8.4.2
+
