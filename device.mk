@@ -20,6 +20,13 @@ PRODUCT_COPY_FILES += \
     device/lge/geefhd_hk/config/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf \
 	device/lge/geefhd_hk/prebuilt/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so
 
+# Camera BINs
+PRODUCT_COPY_FILES += \
+    device/lge/geefhd_hk/camera/CE170F00.bin:system/vendor/firmware/CE170F00.bin \
+    device/lge/geefhd_hk/camera/CE170F01.bin:system/vendor/firmware/CE170F01.bin \
+    device/lge/geefhd_hk/camera/CE170F02.bin:system/vendor/firmware/CE170F02.bin \
+    device/lge/geefhd_hk/camera/CE170F03.bin:system/vendor/firmware/CE170F03.bin
+
 PRODUCT_PACKAGES += \
 	libemoji \
 	Launcher3
