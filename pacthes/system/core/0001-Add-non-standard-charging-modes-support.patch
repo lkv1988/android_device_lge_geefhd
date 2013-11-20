@@ -1,7 +1,7 @@
-From 5ca3a8dfe33ad96af1d9b6e2e09984c5a236ab76 Mon Sep 17 00:00:00 2001
+From a7178fff98b77b9e8446a66c2e7a44112ce0736b Mon Sep 17 00:00:00 2001
 From: Keven Liu <airk908@gmail.com>
 Date: Tue, 12 Nov 2013 17:06:51 +0800
-Subject: [PATCH] Add non-standard charging modes support
+Subject: [PATCH 1/2] Add non-standard charging modes support
 
 Signed-off-by: Keven Liu <airk908@gmail.com>
 ---
