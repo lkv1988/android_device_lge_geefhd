@@ -1,31 +1,31 @@
 ## Get non-open-source specific aspects if available
 $(call inherit-product-if-exists, vendor/lge/geefhd/geefhd-vendor.mk)
-DEVICE_PACKAGE_OVERLAYS += device/lge/geefhd_hk/overlay
+DEVICE_PACKAGE_OVERLAYS += device/lge/geefhd/overlay
 
 ## common overlays
 DEVICE_PACKAGE_OVERLAYS += device/lge/geefhd-common/overlay
 
 PRODUCT_COPY_FILES += \
-    device/lge/geefhd_hk/kernel:kernel
+    device/lge/geefhd/kernel:kernel
 
 PRODUCT_COPY_FILES += \
-	device/lge/geefhd_hk/ramdisk/init.geefhd_hk.rc:root/init.geefhd_hk.rc \
-	device/lge/geefhd_hk/ramdisk/ueventd.geefhd_hk.rc:root/ueventd.geefhd_hk.rc \
-	device/lge/geefhd_hk/ramdisk/fstab.geefhd_hk:root/fstab.geefhd_hk
+	device/lge/geefhd/ramdisk/init.geefhd.rc:root/init.geefhd.rc \
+	device/lge/geefhd/ramdisk/ueventd.geefhd.rc:root/ueventd.geefhd.rc \
+	device/lge/geefhd/ramdisk/fstab.geefhd:root/fstab.geefhd
 
 PRODUCT_COPY_FILES += \
-	device/lge/geefhd_hk/config/01brightness:system/etc/init.d/01brightness \
-    device/lge/geefhd_hk/config/gps.conf:system/etc/gps.conf \
-    device/lge/geefhd_hk/config/BCM4334B0_002.001.013.0271.0333.hcd:system/etc/firmware/BCM4334B0_002.001.013.0271.0333.hcd \
-    device/lge/geefhd_hk/config/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf \
-	device/lge/geefhd_hk/prebuilt/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so
+	device/lge/geefhd/config/01brightness:system/etc/init.d/01brightness \
+    device/lge/geefhd/config/gps.conf:system/etc/gps.conf \
+    device/lge/geefhd/config/BCM4334B0_002.001.013.0271.0333.hcd:system/etc/firmware/BCM4334B0_002.001.013.0271.0333.hcd \
+    device/lge/geefhd/config/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf \
+	device/lge/geefhd/prebuilt/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so
 
 # Camera BINs
 PRODUCT_COPY_FILES += \
-    device/lge/geefhd_hk/camera/CE170F00.bin:system/vendor/firmware/CE170F00.bin \
-    device/lge/geefhd_hk/camera/CE170F01.bin:system/vendor/firmware/CE170F01.bin \
-    device/lge/geefhd_hk/camera/CE170F02.bin:system/vendor/firmware/CE170F02.bin \
-    device/lge/geefhd_hk/camera/CE170F03.bin:system/vendor/firmware/CE170F03.bin
+    device/lge/geefhd/camera/CE170F00.bin:system/vendor/firmware/CE170F00.bin \
+    device/lge/geefhd/camera/CE170F01.bin:system/vendor/firmware/CE170F01.bin \
+    device/lge/geefhd/camera/CE170F02.bin:system/vendor/firmware/CE170F02.bin \
+    device/lge/geefhd/camera/CE170F03.bin:system/vendor/firmware/CE170F03.bin
 
 PRODUCT_PACKAGES += \
 	libemoji \

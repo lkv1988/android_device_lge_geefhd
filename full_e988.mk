@@ -12,13 +12,13 @@ PRODUCT_COPY_FILES := device/sample/etc/apns-full-conf.xml:system/etc/apns-conf.
 # Inherit from the common Open Source product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
 
-$(call inherit-product-if-exists, vendor/lge/geefhd_hk/geefhd_hk-vendor.mk)
-
-
-#$(call inherit-product, build/target/product/full.mk)
-
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 PRODUCT_NAME := aosp_e988
-PRODUCT_DEVICE := geefhd_hk
+PRODUCT_DEVICE := geefhd
+PRODUCT_BRAND := Android
+PRODUCT_MODEL := AOSP on LGE-E988
+PRODUCT_MANUFACTURER := LGE
+
 # Inherit from hardware-specific part of the product configuration
-$(call inherit-product, device/lge/geefhd_hk/device.mk)
+$(call inherit-product, device/lge/geefhd/device.mk)
+$(call inherit-product-if-exists, vendor/lge/geefhd/geefhd-vendor.mk)

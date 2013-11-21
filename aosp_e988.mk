@@ -13,6 +13,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-$(call inherit-product, device/lge/geefhd_hk/full_e988.mk)
-
-PRODUCT_NAME := aosp_e988
+$(call inherit-product, device/lge/geefhd/full_e988.mk)

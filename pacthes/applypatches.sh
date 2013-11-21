@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRC_ROOT=$(pwd)
-cd $(pwd)/device/lge/geefhd_hk/pacthes
+cd $(pwd)/device/lge/geefhd/pacthes
 
 function find_patch()
 {
