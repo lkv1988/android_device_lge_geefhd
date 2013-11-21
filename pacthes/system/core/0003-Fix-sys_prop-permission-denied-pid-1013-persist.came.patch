@@ -1,0 +1,26 @@
+From 8de13b0da3332a71cc75c645d783fa41536fe3ed Mon Sep 17 00:00:00 2001
+From: Keven Liu <airk908@gmail.com>
+Date: Thu, 21 Nov 2013 10:11:53 +0800
+Subject: [PATCH 3/4] Fix sys_prop: permission denied pid:1013
+ persist.camera.snapshot.number
+
+Signed-off-by: Keven Liu <airk908@gmail.com>
+---
+ init/property_service.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/init/property_service.c b/init/property_service.c
+index 9ac2781..2c5be38 100644
+--- a/init/property_service.c
++++ b/init/property_service.c
+@@ -93,6 +93,7 @@ struct {
+     { "persist.service.", AID_SYSTEM,   0 },
+     { "persist.security.", AID_SYSTEM,   0 },
+     { "persist.service.bdroid.", AID_BLUETOOTH,   0 },
++    { "persist.camera.", AID_MEDIA,   0 },
+     { "selinux."         , AID_SYSTEM,   0 },
+     { NULL, 0, 0 }
+ };
+-- 
+1.8.4.2
+

@@ -1,0 +1,98 @@
+From edd86ee1ea65fd01989e52c4dfc5e6cd2960c438 Mon Sep 17 00:00:00 2001
+From: Keven Liu <airk908@gmail.com>
+Date: Thu, 21 Nov 2013 10:12:32 +0800
+Subject: [PATCH 4/4] Fix missing headers for QCOM camera
+
+Signed-off-by: Keven Liu <airk908@gmail.com>
+---
+ include/system/camera.h | 50 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+
+diff --git a/include/system/camera.h b/include/system/camera.h
+index 7a4dd53..dcbcf44 100644
+--- a/include/system/camera.h
++++ b/include/system/camera.h
+@@ -88,9 +88,20 @@ enum {
+     // Notify on autofocus start and stop. This is useful in continuous
+     // autofocus - FOCUS_MODE_CONTINUOUS_VIDEO and FOCUS_MODE_CONTINUOUS_PICTURE.
+     CAMERA_MSG_FOCUS_MOVE = 0x0800,       // notifyCallback
++#ifdef QCOM_HARDWARE
++    CAMERA_MSG_STATS_DATA       = 0x1000,
++    CAMERA_MSG_META_DATA = 0x2000,
++#endif
+     CAMERA_MSG_ALL_MSGS = 0xFFFF
+ };
+ 
++/** meta data type in CameraMetaDataCallback */
++enum {
++    CAMERA_META_DATA_ASD = 0x001,    //ASD data
++    CAMERA_META_DATA_FD = 0x002,     //FD/FP data
++    CAMERA_META_DATA_HDR = 0x003,    //Auto HDR data
++};
++
+ /** cmdType in sendCommand functions */
+ enum {
+     CAMERA_CMD_START_SMOOTH_ZOOM = 1,
+@@ -174,6 +185,21 @@ enum {
+      * count is non-positive or too big to be realized.
+      */
+     CAMERA_CMD_SET_VIDEO_BUFFER_COUNT = 10,
++
++    /**
++     * Commands to enable/disable preview histogram
++     *
++     * Based on user's input to enable/disable histogram from the camera
++     * UI, send the appropriate command to the HAL to turn on/off the histogram
++     * stats and start sending the data to the application.
++     */
++    CAMERA_CMD_HISTOGRAM_ON     = 11,
++    CAMERA_CMD_HISTOGRAM_OFF     = 12,
++    CAMERA_CMD_HISTOGRAM_SEND_DATA  = 13,
++    CAMERA_CMD_LONGSHOT_ON = 14,
++    CAMERA_CMD_LONGSHOT_OFF = 15,
++    CAMERA_CMD_METADATA_ON = 100,
++    CAMERA_CMD_METADATA_OFF = 101,
+ };
+ 
+ /** camera fatal errors */
+@@ -197,6 +223,15 @@ enum {
+     CAMERA_FACING_FRONT = 1
+ };
+ 
++#ifdef QCOM_HARDWARE
++enum {
++    CAMERA_SUPPORT_MODE_2D = 0x01, /* Camera Sensor supports 2D mode. */
++    CAMERA_SUPPORT_MODE_3D = 0x02, /* Camera Sensor supports 3D mode. */
++    CAMERA_SUPPORT_MODE_NONZSL = 0x04, /* Camera Sensor in NON-ZSL mode. */
++    CAMERA_SUPPORT_MODE_ZSL = 0x08 /* Camera Sensor supports ZSL mode. */
++};
++#endif
++
+ enum {
+     /** Hardware face detection. It does not use much CPU. */
+     CAMERA_FACE_DETECTION_HW = 0,
+@@ -255,6 +290,21 @@ typedef struct camera_face {
+      */
+     int32_t mouth[2];
+ 
++#ifdef QCOM_HARDWARE
++    int32_t smile_degree;
++    int32_t smile_score;
++    int32_t blink_detected;
++    int32_t face_recognised;
++    int32_t gaze_angle;
++    int32_t updown_dir;
++    int32_t leftright_dir;
++    int32_t roll_dir;
++    int32_t left_right_gaze;
++    int32_t top_bottom_gaze;
++    int32_t leye_blink;
++    int32_t reye_blink;
++#endif
++
+ } camera_face_t;
+ 
+ /**
+-- 
+1.8.4.2
+

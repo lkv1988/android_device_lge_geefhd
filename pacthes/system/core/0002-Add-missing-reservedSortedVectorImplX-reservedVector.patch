@@ -1,7 +1,7 @@
 From ebdf376103d155273ec28c53c74e499181968c76 Mon Sep 17 00:00:00 2001
 From: Keven Liu <airk908@gmail.com>
 Date: Tue, 19 Nov 2013 17:45:05 +0800
-Subject: [PATCH 2/2] Add missing reservedSortedVectorImplX &
+Subject: [PATCH 2/4] Add missing reservedSortedVectorImplX &
  reservedVectorImplX for libutils, use NEEDS_VECTORIMPL_SYMBOLS tag for it
 
 Signed-off-by: Keven Liu <airk908@gmail.com>
