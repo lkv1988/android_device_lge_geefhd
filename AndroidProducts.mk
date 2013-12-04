@@ -1,2 +1,2 @@
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/aosp_e988.mk
+    $(LOCAL_DIR)/aosp_geefhd.mk

@@ -14,5 +14,5 @@
 # limitations under the License.
 #
 
-add_lunch_combo aosp_e988-userdebug
-add_lunch_combo aosp_e988-eng
+add_lunch_combo aosp_geefhd-userdebug
+add_lunch_combo aosp_geefhd-eng

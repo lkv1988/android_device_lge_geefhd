@@ -13,4 +13,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-$(call inherit-product, device/lge/geefhd/full_e988.mk)
+$(call inherit-product, device/lge/geefhd/full_geefhd.mk)

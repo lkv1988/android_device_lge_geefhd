@@ -13,7 +13,7 @@ PRODUCT_COPY_FILES := device/sample/etc/apns-full-conf.xml:system/etc/apns-conf.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
-PRODUCT_NAME := aosp_e988
+PRODUCT_NAME := aosp_geefhd
 PRODUCT_DEVICE := geefhd
 PRODUCT_BRAND := Android
 PRODUCT_MODEL := AOSP on LGE-E988
