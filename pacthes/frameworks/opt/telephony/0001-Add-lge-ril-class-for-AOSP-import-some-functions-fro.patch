@@ -1,4 +1,4 @@
-From 29f69cfb603068c2f6361322eb8ad3c0cbd83554 Mon Sep 17 00:00:00 2001
+From c0841e78db7ca1f79821fef3ed30319419c1f3bd Mon Sep 17 00:00:00 2001
 From: Keven Liu <airk908@gmail.com>
 Date: Fri, 15 Nov 2013 17:54:43 +0800
 Subject: [PATCH] Add lge ril class for AOSP, import some functions from CM
@@ -898,7 +898,7 @@ index 0000000..46bddb7
 +    }
 +}
 diff --git a/src/java/com/android/internal/telephony/PhoneFactory.java b/src/java/com/android/internal/telephony/PhoneFactory.java
-index b9a6975..47d8a86 100644
+index d7b4c8f..f617bd3 100644
 --- a/src/java/com/android/internal/telephony/PhoneFactory.java
 +++ b/src/java/com/android/internal/telephony/PhoneFactory.java
 @@ -24,6 +24,8 @@ import android.provider.Settings;
@@ -941,10 +941,10 @@ index b9a6975..47d8a86 100644
                  // Instantiate UiccController so that all other classes can just call getInstance()
                  UiccController.make(context, sCommandsInterface);
 diff --git a/src/java/com/android/internal/telephony/RIL.java b/src/java/com/android/internal/telephony/RIL.java
-index a9b2c29..dca36ab 100644
+index 824e191..f968392 100644
 --- a/src/java/com/android/internal/telephony/RIL.java
 +++ b/src/java/com/android/internal/telephony/RIL.java
-@@ -213,7 +213,7 @@ class RILRequest {
+@@ -212,7 +212,7 @@ class RILRequest {
   *
   * {@hide}
   */
@@ -953,7 +953,7 @@ index a9b2c29..dca36ab 100644
      static final String RILJ_LOG_TAG = "RILJ";
      static final boolean RILJ_LOGD = true;
      static final boolean RILJ_LOGV = false; // STOPSHIP if true
-@@ -1948,7 +1948,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -1947,7 +1947,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          if (RILJ_LOGD) riljLog("setCurrentPreferredNetworkType: " + mSetPreferredNetworkType);
          setPreferredNetworkType(mSetPreferredNetworkType, null);
      }
@@ -962,7 +962,7 @@ index a9b2c29..dca36ab 100644
  
      /**
       * {@inheritDoc}
-@@ -2123,7 +2123,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -2122,7 +2122,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
  
      //***** Private Methods
  
@@ -971,7 +971,7 @@ index a9b2c29..dca36ab 100644
          RILRequest rr = RILRequest.obtain(RIL_REQUEST_SCREEN_STATE, null);
          rr.mParcel.writeInt(1);
          rr.mParcel.writeInt(on ? 1 : 0);
-@@ -2144,7 +2144,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -2143,7 +2143,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          sendScreenState(pm.isScreenOn());
     }
  
@@ -980,7 +980,7 @@ index a9b2c29..dca36ab 100644
          RadioState state;
  
          /* RIL_RadioState ril.h */
-@@ -2160,7 +2160,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -2159,7 +2159,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return state;
      }
  
@@ -989,7 +989,7 @@ index a9b2c29..dca36ab 100644
          setRadioState(newState);
      }
  
-@@ -2211,7 +2211,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -2210,7 +2210,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          }
      }
  
@@ -998,7 +998,7 @@ index a9b2c29..dca36ab 100644
      send(RILRequest rr) {
          Message msg;
  
-@@ -2228,7 +2228,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -2227,7 +2227,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          msg.sendToTarget();
      }
  
@@ -1007,7 +1007,7 @@ index a9b2c29..dca36ab 100644
      processResponse (Parcel p) {
          int type;
  
-@@ -2250,7 +2250,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -2249,7 +2249,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
       * @param error is the RIL_Errno sent back
       * @param loggable true means to print all requests in mRequestList
       */
@@ -1016,7 +1016,7 @@ index a9b2c29..dca36ab 100644
          RILRequest rr;
          synchronized (mRequestList) {
              int count = mRequestList.size();
-@@ -2274,7 +2274,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -2273,7 +2273,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          }
      }
  
@@ -1025,7 +1025,7 @@ index a9b2c29..dca36ab 100644
          RILRequest rr = null;
          synchronized (mRequestList) {
              rr = mRequestList.get(serial);
-@@ -2286,7 +2286,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -2285,7 +2285,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return rr;
      }
  
@@ -1034,16 +1034,16 @@ index a9b2c29..dca36ab 100644
      processSolicited (Parcel p) {
          int serial, error;
          boolean found = false;
-@@ -2501,7 +2501,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -2500,7 +2500,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return rr;
      }
  
--    private String
+-    static String
 +    protected String
      retToString(int req, Object ret) {
          if (ret == null) return "";
          switch (req) {
-@@ -2565,7 +2565,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -2564,7 +2564,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return s;
      }
  
@@ -1052,7 +1052,7 @@ index a9b2c29..dca36ab 100644
      processUnsolicited (Parcel p) {
          int response;
          Object ret;
-@@ -2997,7 +2997,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -2996,7 +2996,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
       *
       * @param rilVer is the version of the ril or -1 if disconnected.
       */
@@ -1061,7 +1061,7 @@ index a9b2c29..dca36ab 100644
          mRilVersion = rilVer;
          if (mRilConnectedRegistrants != null) {
              mRilConnectedRegistrants.notifyRegistrants(
-@@ -3005,7 +3005,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3004,7 +3004,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          }
      }
  
@@ -1070,7 +1070,7 @@ index a9b2c29..dca36ab 100644
      responseInts(Parcel p) {
          int numInts;
          int response[];
-@@ -3022,12 +3022,12 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3021,12 +3021,12 @@ public final class RIL extends BaseCommands implements CommandsInterface {
      }
  
  
@@ -1085,7 +1085,7 @@ index a9b2c29..dca36ab 100644
      responseCallForward(Parcel p) {
          int numInfos;
          CallForwardInfo infos[];
-@@ -3050,7 +3050,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3049,7 +3049,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return infos;
      }
  
@@ -1094,7 +1094,7 @@ index a9b2c29..dca36ab 100644
      responseSuppServiceNotification(Parcel p) {
          SuppServiceNotification notification = new SuppServiceNotification();
  
-@@ -3063,7 +3063,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3062,7 +3062,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return notification;
      }
  
@@ -1103,7 +1103,7 @@ index a9b2c29..dca36ab 100644
      responseCdmaSms(Parcel p) {
          SmsMessage sms;
          sms = SmsMessage.newFromParcel(p);
-@@ -3071,7 +3071,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3070,7 +3070,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return sms;
      }
  
@@ -1112,7 +1112,7 @@ index a9b2c29..dca36ab 100644
      responseString(Parcel p) {
          String response;
  
-@@ -3080,7 +3080,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3079,7 +3079,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return response;
      }
  
@@ -1121,7 +1121,7 @@ index a9b2c29..dca36ab 100644
      responseStrings(Parcel p) {
          int num;
          String response[];
-@@ -3090,7 +3090,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3089,7 +3089,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return response;
      }
  
@@ -1130,7 +1130,7 @@ index a9b2c29..dca36ab 100644
      responseRaw(Parcel p) {
          int num;
          byte response[];
-@@ -3100,7 +3100,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3099,7 +3099,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return response;
      }
  
@@ -1139,7 +1139,7 @@ index a9b2c29..dca36ab 100644
      responseSMS(Parcel p) {
          int messageRef, errorCode;
          String ackPDU;
-@@ -3115,7 +3115,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3114,7 +3114,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
      }
  
  
@@ -1148,7 +1148,7 @@ index a9b2c29..dca36ab 100644
      responseICC_IO(Parcel p) {
          int sw1, sw2;
          Message ret;
-@@ -3133,7 +3133,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3132,7 +3132,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return new IccIoResult(sw1, sw2, s);
      }
  
@@ -1157,7 +1157,7 @@ index a9b2c29..dca36ab 100644
      responseIccCardStatus(Parcel p) {
          IccCardApplicationStatus appStatus;
  
-@@ -3165,7 +3165,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3164,7 +3164,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return cardStatus;
      }
  
@@ -1166,7 +1166,7 @@ index a9b2c29..dca36ab 100644
      responseSimRefresh(Parcel p) {
          IccRefreshResponse response = new IccRefreshResponse();
  
-@@ -3175,7 +3175,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3174,7 +3174,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return response;
      }
  
@@ -1175,7 +1175,7 @@ index a9b2c29..dca36ab 100644
      responseCallList(Parcel p) {
          int num;
          int voiceSettings;
-@@ -3252,7 +3252,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3251,7 +3251,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return response;
      }
  
@@ -1184,7 +1184,7 @@ index a9b2c29..dca36ab 100644
          DataCallResponse dataCall = new DataCallResponse();
  
          dataCall.version = version;
-@@ -3291,7 +3291,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3290,7 +3290,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return dataCall;
      }
  
@@ -1193,7 +1193,7 @@ index a9b2c29..dca36ab 100644
      responseDataCallList(Parcel p) {
          ArrayList<DataCallResponse> response;
  
-@@ -3307,7 +3307,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3306,7 +3306,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return response;
      }
  
@@ -1202,7 +1202,7 @@ index a9b2c29..dca36ab 100644
      responseSetupDataCall(Parcel p) {
          int ver = p.readInt();
          int num = p.readInt();
-@@ -3354,7 +3354,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3353,7 +3353,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return dataCall;
      }
  
@@ -1211,7 +1211,7 @@ index a9b2c29..dca36ab 100644
      responseOperatorInfos(Parcel p) {
          String strings[] = (String [])responseStrings(p);
          ArrayList<OperatorInfo> ret;
-@@ -3379,7 +3379,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3378,7 +3378,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return ret;
      }
  
@@ -1220,7 +1220,7 @@ index a9b2c29..dca36ab 100644
      responseCellList(Parcel p) {
         int num, rssi;
         String location;
-@@ -3421,7 +3421,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3420,7 +3420,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
         return response;
      }
  
@@ -1229,7 +1229,7 @@ index a9b2c29..dca36ab 100644
         int [] response = (int[]) responseInts(p);
  
         if (response.length >= 1) {
-@@ -3433,7 +3433,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3432,7 +3432,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
         return response;
      }
  
@@ -1238,7 +1238,7 @@ index a9b2c29..dca36ab 100644
          int num;
          ArrayList<SmsBroadcastConfigInfo> response;
          SmsBroadcastConfigInfo info;
-@@ -3455,7 +3455,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3454,7 +3454,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return response;
      }
  
@@ -1247,7 +1247,7 @@ index a9b2c29..dca36ab 100644
      responseCdmaBroadcastConfig(Parcel p) {
          int numServiceCategories;
          int response[];
-@@ -3494,7 +3494,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3493,7 +3493,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return response;
      }
  
@@ -1256,7 +1256,7 @@ index a9b2c29..dca36ab 100644
      responseSignalStrength(Parcel p) {
          // Assume this is gsm, but doesn't matter as ServiceStateTracker
          // sets the proper value.
-@@ -3502,7 +3502,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3501,7 +3501,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return signalStrength;
      }
  
@@ -1265,7 +1265,7 @@ index a9b2c29..dca36ab 100644
      responseCdmaInformationRecord(Parcel p) {
          int numberOfInfoRecs;
          ArrayList<CdmaInformationRecords> response;
-@@ -3522,7 +3522,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3521,7 +3521,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return response;
      }
  
@@ -1274,7 +1274,7 @@ index a9b2c29..dca36ab 100644
      responseCdmaCallWaiting(Parcel p) {
          CdmaCallWaitingNotification notification = new CdmaCallWaitingNotification();
  
-@@ -3541,7 +3541,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3540,7 +3540,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return notification;
      }
  
@@ -1283,7 +1283,7 @@ index a9b2c29..dca36ab 100644
      responseCallRing(Parcel p){
          char response[] = new char[4];
  
-@@ -3553,7 +3553,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3552,7 +3552,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          return response;
      }
  
@@ -1292,7 +1292,7 @@ index a9b2c29..dca36ab 100644
      notifyRegistrantsCdmaInfoRec(CdmaInformationRecords infoRec) {
          int response = RIL_UNSOL_CDMA_INFO_REC;
          if (infoRec.record instanceof CdmaInformationRecords.CdmaDisplayInfoRec) {
-@@ -3601,7 +3601,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3600,7 +3600,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          }
      }
  
@@ -1301,7 +1301,7 @@ index a9b2c29..dca36ab 100644
          int numberOfInfoRecs;
          ArrayList<CellInfo> response;
  
-@@ -3797,27 +3797,27 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+@@ -3796,27 +3796,27 @@ public final class RIL extends BaseCommands implements CommandsInterface {
          }
      }
  
@@ -1336,5 +1336,5 @@ index a9b2c29..dca36ab 100644
      }
  
 -- 
-1.8.4.2
+1.8.3.2
 
