@@ -1,9 +1,9 @@
-From c0841e78db7ca1f79821fef3ed30319419c1f3bd Mon Sep 17 00:00:00 2001
-From: Keven Liu <airk908@gmail.com>
-Date: Fri, 15 Nov 2013 17:54:43 +0800
+From 85139f5d9f3e97e9fc46e17f1ecc59be7b323867 Mon Sep 17 00:00:00 2001
+From: Kevin Liu <airk908@gmail.com>
+Date: Thu, 12 Dec 2013 17:27:53 +0800
 Subject: [PATCH] Add lge ril class for AOSP, import some functions from CM
 
-Signed-off-by: Keven Liu <airk908@gmail.com>
+Signed-off-by: Kevin Liu <airk908@gmail.com>
 ---
  .../com/android/internal/telephony/LgeLteRIL.java  | 880 +++++++++++++++++++++
  .../android/internal/telephony/PhoneFactory.java   |  17 +-
@@ -941,7 +941,7 @@ index d7b4c8f..f617bd3 100644
                  // Instantiate UiccController so that all other classes can just call getInstance()
                  UiccController.make(context, sCommandsInterface);
 diff --git a/src/java/com/android/internal/telephony/RIL.java b/src/java/com/android/internal/telephony/RIL.java
-index 824e191..f968392 100644
+index 824e191..57607d1 100644
 --- a/src/java/com/android/internal/telephony/RIL.java
 +++ b/src/java/com/android/internal/telephony/RIL.java
 @@ -212,7 +212,7 @@ class RILRequest {
@@ -1039,7 +1039,7 @@ index 824e191..f968392 100644
      }
  
 -    static String
-+    protected String
++    protected static String
      retToString(int req, Object ret) {
          if (ret == null) return "";
          switch (req) {
