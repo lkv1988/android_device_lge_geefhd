@@ -1,0 +1,26 @@
+<5>[   92.149719 / 12-10 15:57:00.057] type=1400 audit(1386662220.057:79): avc:  denied  { read } for  pid=2070 comm="app_process" path="pipe:[29194]" dev="pipefs" ino=29194 scontext=u:r:zygote:s0 tcontext=u:r:init:s0 tclass=fifo_file
+<5>[   92.149780 / 12-10 15:57:00.057] type=1400 audit(1386662220.057:80): avc:  denied  { write } for  pid=2070 comm="app_process" path="pipe:[30284]" dev="pipefs" ino=30284 scontext=u:r:zygote:s0 tcontext=u:r:init:s0 tclass=fifo_file
+<5>[   92.149810 / 12-10 15:57:00.057] type=1400 audit(1386662220.057:81): avc:  denied  { write } for  pid=2070 comm="app_process" path="pipe:[30285]" dev="pipefs" ino=30285 scontext=u:r:zygote:s0 tcontext=u:r:init:s0 tclass=fifo_file
+<5>[   92.149841 / 12-10 15:57:00.057] type=1400 audit(1386662220.057:82): avc:  denied  { read write } for  pid=2070 comm="app_process" path="socket:[4765]" dev="sockfs" ino=4765 scontext=u:r:zygote:s0 tcontext=u:r:init:s0 tclass=unix_stream_socket
+<5>[   92.149871 / 12-10 15:57:00.057] type=1400 audit(1386662220.057:83): avc:  denied  { read write } for  pid=2070 comm="app_process" path="socket:[30280]" dev="sockfs" ino=30280 scontext=u:r:zygote:s0 tcontext=u:r:init:s0 tclass=unix_stream_socket
+<5>[   92.149932 / 12-10 15:57:00.057] type=1400 audit(1386662220.057:84): avc:  denied  { read } for  pid=2070 comm="app_process" path="pipe:[29194]" dev="pipefs" ino=29194 scontext=u:r:zygote:s0 tcontext=u:r:init:s0 tclass=fifo_file
+<5>[   92.149963 / 12-10 15:57:00.057] type=1400 audit(1386662220.057:85): avc:  denied  { write } for  pid=2070 comm="app_process" path="pipe:[30284]" dev="pipefs" ino=30284 scontext=u:r:zygote:s0 tcontext=u:r:init:s0 tclass=fifo_file
+<5>[   92.149993 / 12-10 15:57:00.057] type=1400 audit(1386662220.057:86): avc:  denied  { write } for  pid=2070 comm="app_process" path="pipe:[29195]" dev="pipefs" ino=29195 scontext=u:r:zygote:s0 tcontext=u:r:init:s0 tclass=fifo_file
+<5>[   92.150024 / 12-10 15:57:00.057] type=1400 audit(1386662220.057:87): avc:  denied  { write } for  pid=2070 comm="app_process" path="pipe:[29196]" dev="pipefs" ino=29196 scontext=u:r:zygote:s0 tcontext=u:r:init:s0 tclass=fifo_file
+<5>[   92.150054 / 12-10 15:57:00.057] type=1400 audit(1386662220.057:88): avc:  denied  { write } for  pid=2070 comm="app_process" path="pipe:[30285]" dev="pipefs" ino=30285 scontext=u:r:zygote:s0 tcontext=u:r:init:s0 tclass=fifo_file
+
+
+
+
+
+
+
+
+
+
+
+20131213
+
+<5>[   14.388458 / 12-13 02:54:23.900] type=1400 audit(1386903263.900:3): avc:  denied  { add_name } for  pid=198 comm="sensors.qcom" name="9999" scontext=u:r:sensors:s0 tcontext=u:object_r:cgroup:s0 tclass=dir
+<5>[   14.388519 / 12-13 02:54:23.900] type=1400 audit(1386903263.900:4): avc:  denied  { create } for  pid=198 comm="sensors.qcom" name="9999" scontext=u:r:sensors:s0 tcontext=u:object_r:cgroup:s0 tclass=dir
+
