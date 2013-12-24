@@ -1,7 +1,7 @@
-From edd86ee1ea65fd01989e52c4dfc5e6cd2960c438 Mon Sep 17 00:00:00 2001
+From df5bf5cca72bd4e251aea6ef0877c2ce90078c8d Mon Sep 17 00:00:00 2001
 From: Keven Liu <airk908@gmail.com>
 Date: Thu, 21 Nov 2013 10:12:32 +0800
-Subject: [PATCH 4/4] Fix missing headers for QCOM camera
+Subject: [PATCH 4/5] Fix missing headers for QCOM camera
 
 Signed-off-by: Keven Liu <airk908@gmail.com>
 ---
@@ -94,5 +94,5 @@ index 7a4dd53..dcbcf44 100644
  
  /**
 -- 
-1.8.4.2
+1.8.3.2
 

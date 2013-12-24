@@ -1,7 +1,7 @@
-From 8de13b0da3332a71cc75c645d783fa41536fe3ed Mon Sep 17 00:00:00 2001
+From 5e58cbeb4af8c7c7e9c4100e65d45852fc343c76 Mon Sep 17 00:00:00 2001
 From: Keven Liu <airk908@gmail.com>
 Date: Thu, 21 Nov 2013 10:11:53 +0800
-Subject: [PATCH 3/4] Fix sys_prop: permission denied pid:1013
+Subject: [PATCH 1/5] Fix sys_prop: permission denied pid:1013
  persist.camera.snapshot.number
 
 Signed-off-by: Keven Liu <airk908@gmail.com>
@@ -22,5 +22,5 @@ index 9ac2781..2c5be38 100644
      { NULL, 0, 0 }
  };
 -- 
-1.8.4.2
+1.8.3.2
 

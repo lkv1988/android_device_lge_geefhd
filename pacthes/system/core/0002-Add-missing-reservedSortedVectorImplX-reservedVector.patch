@@ -1,7 +1,7 @@
-From ebdf376103d155273ec28c53c74e499181968c76 Mon Sep 17 00:00:00 2001
+From a7038d5ff4409c8a25f83741923cb3ade466f3f3 Mon Sep 17 00:00:00 2001
 From: Keven Liu <airk908@gmail.com>
 Date: Tue, 19 Nov 2013 17:45:05 +0800
-Subject: [PATCH 2/4] Add missing reservedSortedVectorImplX &
+Subject: [PATCH 2/5] Add missing reservedSortedVectorImplX &
  reservedVectorImplX for libutils, use NEEDS_VECTORIMPL_SYMBOLS tag for it
 
 Signed-off-by: Keven Liu <airk908@gmail.com>
@@ -91,5 +91,5 @@ index 5a79647..d089b46 100644
  
  }; // namespace android
 -- 
-1.8.4.2
+1.8.3.2
 
