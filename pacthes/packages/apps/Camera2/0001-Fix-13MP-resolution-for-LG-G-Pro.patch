@@ -1,0 +1,26 @@
+From 4bf33f03e5c79f24d5bb9104cb8e05daf6e9d8e5 Mon Sep 17 00:00:00 2001
+From: Kevin Liu <airk908@gmail.com>
+Date: Wed, 25 Dec 2013 14:39:07 +0800
+Subject: [PATCH] Fix 13MP resolution for LG G Pro
+
+Signed-off-by: Kevin Liu <airk908@gmail.com>
+---
+ res/values/arrays.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/res/values/arrays.xml b/res/values/arrays.xml
+index 050f5a6..7dc210d 100644
+--- a/res/values/arrays.xml
++++ b/res/values/arrays.xml
+@@ -178,7 +178,7 @@
+          size to the first one in the list that is also supported by the
+          driver -->
+     <string-array name="pref_camera_picturesize_entryvalues" translatable="false">
+-        <item>4128x3096</item>
++        <item>4160x3120</item>
+         <item>3264x2448</item>
+         <item>2592x1944</item>
+         <item>2592x1936</item>
+-- 
+1.8.3.2
+
