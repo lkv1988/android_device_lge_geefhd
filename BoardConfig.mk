@@ -22,11 +22,7 @@ RECOVERY_FSTAB_VERSION = 2
 TARGET_OTA_ASSERT_DEVICE := geefhd,geefhd_hk,geefhd_open_hk,gkatt
 TARGET_RELEASETOOLS_EXTENSIONS := device/lge/geefhd/loki
 
-# OpenGL
-BOARD_EGL_WORKAROUND_BUG_10194508 := true
-
-#USE_DEVICE_SPECIFIC_CAMERA := true
-#USE_DEVICE_SPECIFIC_QCOM_PROPRIETARY := true
+# Camera
 TARGET_DISPLAY_INSECURE_MM_HEAP := true
 
 # inherit from the proprietary version
