@@ -1,7 +1,7 @@
-From cb348e6b42f056b033d91b5c61c74dc58a6861cc Mon Sep 17 00:00:00 2001
+From b2d3f2e5b6dff2266af6946bc752f7f7492e50b0 Mon Sep 17 00:00:00 2001
 From: Keven Liu <airk908@gmail.com>
 Date: Thu, 21 Nov 2013 10:14:08 +0800
-Subject: [PATCH] For fixing QCOM camera, WIP
+Subject: [PATCH 1/2] For fixing QCOM camera, WIP
 
 Signed-off-by: Keven Liu <airk908@gmail.com>
 ---
@@ -1256,10 +1256,10 @@ index d521543..2758989 100644
      DefaultKeyedVector<String8,String8>    mMap;
  };
 diff --git a/services/camera/libcameraservice/CameraService.cpp b/services/camera/libcameraservice/CameraService.cpp
-index 34a5b15..292be58 100644
+index eeedfc9..d09eae7 100644
 --- a/services/camera/libcameraservice/CameraService.cpp
 +++ b/services/camera/libcameraservice/CameraService.cpp
-@@ -925,6 +925,7 @@ CameraService::Client::Client(const sp<CameraService>& cameraService,
+@@ -926,6 +926,7 @@ CameraService::Client::Client(const sp<CameraService>& cameraService,
      LOG1("Client::Client E (pid %d, id %d)", callingPid, cameraId);
  
      mRemoteCallback = cameraClient;
@@ -1267,7 +1267,7 @@ index 34a5b15..292be58 100644
  
      cameraService->setCameraBusy(cameraId);
      cameraService->loadSound();
-@@ -959,6 +960,9 @@ CameraService::BasicClient::BasicClient(const sp<CameraService>& cameraService,
+@@ -960,6 +961,9 @@ CameraService::BasicClient::BasicClient(const sp<CameraService>& cameraService,
      mServicePid = servicePid;
      mOpsActive = false;
      mDestructionStarted = false;
@@ -1458,5 +1458,5 @@ index bd6805d..6b1f194 100644
      sp<ICameraClient> c = mRemoteCallback;
      mLock.unlock();
 -- 
-1.8.4.2
+1.8.3.2
 

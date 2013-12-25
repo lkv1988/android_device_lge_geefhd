@@ -1,0 +1,323 @@
+From 4105dfc4a7f3e136f0a83dd6e613d2d054abd560 Mon Sep 17 00:00:00 2001
+From: Kevin Liu <airk908@gmail.com>
+Date: Wed, 25 Dec 2013 12:01:20 +0800
+Subject: [PATCH 3/3] Add TARGET_DISPLAY_INSECURE_MM_HEAP for fixing camera
+ alloc issue
+
+Signed-off-by: Kevin Liu <airk908@gmail.com>
+---
+ msm8960/common.mk                       |  3 ++
+ msm8960/libcopybit/copybit_c2d.cpp      |  2 +-
+ msm8960/libgralloc/alloc_controller.cpp | 83 +++++++++++++++++++++++++--------
+ msm8960/libgralloc/alloc_controller.h   |  1 +
+ msm8960/libgralloc/gpu.cpp              | 12 ++++-
+ msm8960/libgralloc/gralloc_priv.h       | 17 ++++++-
+ msm8960/libhwcomposer/hwc_copybit.cpp   |  7 +--
+ 7 files changed, 100 insertions(+), 25 deletions(-)
+
+diff --git a/msm8960/common.mk b/msm8960/common.mk
+index 2491cd5..fc370b2 100644
+--- a/msm8960/common.mk
++++ b/msm8960/common.mk
+@@ -34,3 +34,6 @@ ifeq ($(call is-vendor-board-platform,QCOM),true)
+     common_deps += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+     kernel_includes += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
+ endif
++ifneq ($(TARGET_DISPLAY_INSECURE_MM_HEAP),true)
++    common_flags += -DSECURE_MM_HEAP
++endif
+diff --git a/msm8960/libcopybit/copybit_c2d.cpp b/msm8960/libcopybit/copybit_c2d.cpp
+index c55164e..1107fc8 100644
+--- a/msm8960/libcopybit/copybit_c2d.cpp
++++ b/msm8960/libcopybit/copybit_c2d.cpp
+@@ -105,7 +105,7 @@ C2D_STATUS (*LINK_c2dFillSurface) ( uint32 surface_id, uint32 fill_color,
+ 
+ // The following defines can be changed as required i.e. as we encounter
+ // complex use cases.
+-#define MAX_RGB_SURFACES 8        // Max. RGB layers currently supported per draw
++#define MAX_RGB_SURFACES 32       // Max. RGB layers currently supported per draw
+ #define MAX_YUV_2_PLANE_SURFACES 4// Max. 2-plane YUV layers currently supported per draw
+ #define MAX_YUV_3_PLANE_SURFACES 1// Max. 3-plane YUV layers currently supported per draw
+ // +1 for the destination surface. We cannot have multiple destination surfaces.
+diff --git a/msm8960/libgralloc/alloc_controller.cpp b/msm8960/libgralloc/alloc_controller.cpp
+index 16a908b..64a0c15 100644
+--- a/msm8960/libgralloc/alloc_controller.cpp
++++ b/msm8960/libgralloc/alloc_controller.cpp
+@@ -45,6 +45,10 @@
+ #define VENUS_BUFFER_SIZE(args...) 0
+ #endif
+ 
++#ifndef ION_ADSP_HEAP_ID
++#define ION_ADSP_HEAP_ID ION_CAMERA_HEAP_ID
++#endif
++
+ using namespace gralloc;
+ using namespace qdutils;
+ 
+@@ -75,11 +79,11 @@ static bool canFallback(int usage, bool triedSystem)
+ 
+ static bool useUncached(int usage)
+ {
+-    // System heaps cannot be uncached
+-    if(usage & GRALLOC_USAGE_PRIVATE_SYSTEM_HEAP)
+-        return false;
+     if (usage & GRALLOC_USAGE_PRIVATE_UNCACHED)
+         return true;
++    if(((usage & GRALLOC_USAGE_SW_WRITE_MASK) == GRALLOC_USAGE_SW_WRITE_RARELY)
++       ||((usage & GRALLOC_USAGE_SW_READ_MASK) == GRALLOC_USAGE_SW_READ_RARELY))
++        return true;
+     return false;
+ }
+ 
+@@ -171,12 +175,21 @@ IAllocController* IAllocController::getInstance(void)
+ IonController::IonController()
+ {
+     mIonAlloc = new IonAlloc();
++    mUseTZProtection = false;
++    char property[PROPERTY_VALUE_MAX];
++    if ((property_get("persist.gralloc.cp.level3", property, NULL) <= 0) ||
++                            (atoi(property) != 1)) {
++        mUseTZProtection = true;
++    }
+ }
+ 
+ int IonController::allocate(alloc_data& data, int usage)
+ {
+     int ionFlags = 0;
+     int ret;
++#ifndef SECURE_MM_HEAP
++    bool noncontig = false;
++#endif
+ 
+     data.uncached = useUncached(usage);
+     data.allocType = 0;
+@@ -184,33 +197,56 @@ int IonController::allocate(alloc_data& data, int usage)
+     if(usage & GRALLOC_USAGE_PRIVATE_UI_CONTIG_HEAP)
+         ionFlags |= ION_HEAP(ION_SF_HEAP_ID);
+ 
+-    if(usage & GRALLOC_USAGE_PRIVATE_SYSTEM_HEAP)
++    if(usage & GRALLOC_USAGE_PRIVATE_SYSTEM_HEAP) {
+         ionFlags |= ION_HEAP(ION_SYSTEM_HEAP_ID);
++#ifndef SECURE_MM_HEAP
++        noncontig = true;
++#endif
++    }
+ 
+-    if(usage & GRALLOC_USAGE_PRIVATE_IOMMU_HEAP)
++    if(usage & GRALLOC_USAGE_PRIVATE_IOMMU_HEAP) {
+         ionFlags |= ION_HEAP(ION_IOMMU_HEAP_ID);
++#ifndef SECURE_MM_HEAP
++        noncontig = true;
++#endif
++    }
+ 
+-    //MM Heap is exclusively a secure heap.
+-    if(usage & GRALLOC_USAGE_PRIVATE_MM_HEAP) {
+-        //XXX: Right now the MM heap is the only secure heap we have. When we
+-        //have other secure heaps, we can change this.
+-        if(usage & GRALLOC_USAGE_PROTECTED) {
++
++#ifdef SECURE_MM_HEAP
++    if(usage & GRALLOC_USAGE_PROTECTED) {
++        if ((mUseTZProtection) && (usage & GRALLOC_USAGE_PRIVATE_MM_HEAP)) {
+             ionFlags |= ION_HEAP(ION_CP_MM_HEAP_ID);
+             ionFlags |= ION_SECURE;
+-        }
+-        else {
+-            ALOGW("GRALLOC_USAGE_PRIVATE_MM_HEAP \
+-                  cannot be used as an insecure heap!\
+-                  trying to use IOMMU instead !!");
++        } else {
++            // for targets/OEMs which do not need HW level protection
++            // do not set ion secure flag & MM heap. Fallback to IOMMU heap.
+             ionFlags |= ION_HEAP(ION_IOMMU_HEAP_ID);
+         }
++    } else
++#endif
++       if(usage & GRALLOC_USAGE_PRIVATE_MM_HEAP) {
++#ifdef SECURE_MM_HEAP
++        //MM Heap is exclusively a secure heap.
++        //If it is used for non secure cases, fallback to IOMMU heap
++        ALOGW("GRALLOC_USAGE_PRIVATE_MM_HEAP \
++                                cannot be used as an insecure heap!\
++                                trying to use IOMMU instead !!");
++        ionFlags |= ION_HEAP(ION_IOMMU_HEAP_ID);
++#else
++        ionFlags |= ION_HEAP(ION_CP_MM_HEAP_ID);
++#endif
+     }
+ 
+     if(usage & GRALLOC_USAGE_PRIVATE_CAMERA_HEAP)
+-        ionFlags |= ION_HEAP(ION_CAMERA_HEAP_ID);
++        ionFlags |= ION_HEAP(ION_ADSP_HEAP_ID);
+ 
+-    if(usage & GRALLOC_USAGE_PROTECTED)
+-         data.allocType |= private_handle_t::PRIV_FLAGS_SECURE_BUFFER;
++#ifdef SECURE_MM_HEAP
++    if(ionFlags & ION_SECURE)
++        data.allocType |= private_handle_t::PRIV_FLAGS_SECURE_BUFFER;
++#else
++    if (usage & GRALLOC_USAGE_PROTECTED && !noncontig)
++        data.allocType |= ION_SECURE;
++#endif
+ 
+     // if no flags are set, default to
+     // SF + IOMMU heaps, so that bypass can work
+@@ -228,11 +264,20 @@ int IonController::allocate(alloc_data& data, int usage)
+     {
+         ALOGW("Falling back to system heap");
+         data.flags = ION_HEAP(ION_SYSTEM_HEAP_ID);
++#ifndef SECURE_MM_HEAP
++        noncontig = true;
++#endif
+         ret = mIonAlloc->alloc_buffer(data);
+     }
+ 
+     if(ret >= 0 ) {
+         data.allocType |= private_handle_t::PRIV_FLAGS_USES_ION;
++#ifndef SECURE_MM_HEAP
++        if (noncontig)
++            data.allocType |= private_handle_t::PRIV_FLAGS_NONCONTIGUOUS_MEM;
++        if(ionFlags & ION_SECURE)
++            data.allocType |= private_handle_t::PRIV_FLAGS_SECURE_BUFFER;
++#endif
+     }
+ 
+     return ret;
+@@ -305,7 +350,7 @@ size_t getBufferSizeAndDimensions(int width, int height, int format,
+         case HAL_PIXEL_FORMAT_YCbCr_420_SP:
+         case HAL_PIXEL_FORMAT_YCrCb_420_SP:
+             alignedh = height;
+-            size = ALIGN((alignedw*alignedh) + (alignedw* alignedh)/2, 4096);
++            size = ALIGN((alignedw*alignedh) + (alignedw* alignedh)/2 + 1, 4096);
+             break;
+         case HAL_PIXEL_FORMAT_YCbCr_422_SP:
+         case HAL_PIXEL_FORMAT_YCrCb_422_SP:
+diff --git a/msm8960/libgralloc/alloc_controller.h b/msm8960/libgralloc/alloc_controller.h
+index 5fe81fa..8954d39 100644
+--- a/msm8960/libgralloc/alloc_controller.h
++++ b/msm8960/libgralloc/alloc_controller.h
+@@ -65,6 +65,7 @@ class IonController : public IAllocController {
+ 
+     private:
+     IonAlloc* mIonAlloc;
++    bool mUseTZProtection;
+ 
+ };
+ } //end namespace gralloc
+diff --git a/msm8960/libgralloc/gpu.cpp b/msm8960/libgralloc/gpu.cpp
+index ab8438f..231d5e0 100644
+--- a/msm8960/libgralloc/gpu.cpp
++++ b/msm8960/libgralloc/gpu.cpp
+@@ -258,13 +258,23 @@ int gpu_context_t::alloc_impl(int w, int h, int format, int usage,
+     if(format == HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED ||
+        format == HAL_PIXEL_FORMAT_YCbCr_420_888) {
+         if(usage & GRALLOC_USAGE_HW_VIDEO_ENCODER)
+-            grallocFormat = HAL_PIXEL_FORMAT_NV12_ENCODEABLE; //NV12
++            grallocFormat = HAL_PIXEL_FORMAT_YCbCr_420_SP_VENUS;
++        else if((usage & GRALLOC_USAGE_HW_CAMERA_MASK)
++                == GRALLOC_USAGE_HW_CAMERA_ZSL)
++            grallocFormat = HAL_PIXEL_FORMAT_NV21_ZSL; //NV21 ZSL
+         else if(usage & GRALLOC_USAGE_HW_CAMERA_READ)
+             grallocFormat = HAL_PIXEL_FORMAT_YCrCb_420_SP; //NV21
+         else if(usage & GRALLOC_USAGE_HW_CAMERA_WRITE)
+             grallocFormat = HAL_PIXEL_FORMAT_YCrCb_420_SP; //NV21
+     }
+ 
++    if (format == HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED &&
++            (usage & GRALLOC_USAGE_HW_COMPOSER )) {
++        //XXX: If we still haven't set a format, default to
++        //RGBA8888
++        grallocFormat = HAL_PIXEL_FORMAT_RGBA_8888;
++    }
++
+     getGrallocInformationFromFormat(grallocFormat, &bufferType);
+     size = getBufferSizeAndDimensions(w, h, grallocFormat, alignedw, alignedh);
+ 
+diff --git a/msm8960/libgralloc/gralloc_priv.h b/msm8960/libgralloc/gralloc_priv.h
+index 80141ae..2ee6f6c 100644
+--- a/msm8960/libgralloc/gralloc_priv.h
++++ b/msm8960/libgralloc/gralloc_priv.h
+@@ -102,6 +102,8 @@ enum {
+     HAL_PIXEL_FORMAT_RG_88                  = 0x10E,
+     HAL_PIXEL_FORMAT_YCbCr_444_SP           = 0x10F,
+     HAL_PIXEL_FORMAT_YCrCb_444_SP           = 0x110,
++    HAL_PIXEL_FORMAT_YCrCb_422_I            = 0x111,
++    HAL_PIXEL_FORMAT_NV21_ZSL               = 0x112,
+     HAL_PIXEL_FORMAT_INTERLACE              = 0x180,
+ 
+ };
+@@ -163,6 +165,7 @@ struct private_handle_t : public native_handle {
+             PRIV_FLAGS_ITU_R_601          = 0x00200000,
+             PRIV_FLAGS_ITU_R_601_FR       = 0x00400000,
+             PRIV_FLAGS_ITU_R_709          = 0x00800000,
++            PRIV_FLAGS_SECURE_DISPLAY     = 0x01000000,
+         };
+ 
+         // file-descriptors
+@@ -171,9 +174,14 @@ struct private_handle_t : public native_handle {
+         // ints
+         int     magic;
+         int     flags;
++#ifdef QCOM_BSP_CAMERA_ABI_HACK
++        int     bufferType;
++#endif
+         int     size;
+         int     offset;
++#ifndef QCOM_BSP_CAMERA_ABI_HACK
+         int     bufferType;
++#endif
+         int     base;
+         int     offset_metadata;
+         // The gpu address mapped into the mmu.
+@@ -192,7 +200,14 @@ struct private_handle_t : public native_handle {
+                          int format,int width, int height, int eFd = -1,
+                          int eOffset = 0, int eBase = 0) :
+             fd(fd), fd_metadata(eFd), magic(sMagic),
+-            flags(flags), size(size), offset(0), bufferType(bufferType),
++            flags(flags),
++#ifdef QCOM_BSP_CAMERA_ABI_HACK
++            bufferType(bufferType),
++#endif
++            size(size), offset(0),
++#ifndef QCOM_BSP_CAMERA_ABI_HACK
++            bufferType(bufferType),
++#endif
+             base(0), offset_metadata(eOffset), gpuaddr(0),
+             format(format), width(width), height(height),
+             base_metadata(eBase)
+diff --git a/msm8960/libhwcomposer/hwc_copybit.cpp b/msm8960/libhwcomposer/hwc_copybit.cpp
+index 81fe96b..d9ea7a2 100644
+--- a/msm8960/libhwcomposer/hwc_copybit.cpp
++++ b/msm8960/libhwcomposer/hwc_copybit.cpp
+@@ -120,7 +120,8 @@ unsigned int CopyBit::getRGBRenderingArea
+     //Calculates total rendering area for RGB layers
+     unsigned int renderArea = 0;
+     unsigned int w=0, h=0;
+-    for (unsigned int i=0; i<list->numHwLayers; i++) {
++    //Do not include Framebuffer area in calculating total area
++    for (unsigned int i=0; i<(list->numHwLayers)-1; i++) {
+          private_handle_t *hnd = (private_handle_t *)list->hwLayers[i].handle;
+          if (hnd) {
+              if (BUFFER_TYPE_UI == hnd->bufferType) {
+@@ -414,7 +415,7 @@ int  CopyBit::drawLayerUsingCopybit(hwc_context_t *dev, hwc_layer_1_t *layer,
+        }
+        ALOGE("%s:%d::tmp_w = %d,tmp_h = %d",__FUNCTION__,__LINE__,tmp_w,tmp_h);
+ 
+-       int usage = GRALLOC_USAGE_PRIVATE_IOMMU_HEAP;
++       int usage = GRALLOC_USAGE_PRIVATE_IOMMU_HEAP | GRALLOC_USAGE_PRIVATE_UI_CONTIG_HEAP;
+ 
+        if (0 == alloc_buffer(&tmpHnd, tmp_w, tmp_h, fbHandle->format, usage)){
+             copybit_image_t tmp_dst;
+@@ -512,7 +513,7 @@ int CopyBit::allocRenderBuffers(int w, int h, int f)
+         if (mRenderBuffer[i] == NULL) {
+             ret = alloc_buffer(&mRenderBuffer[i],
+                                w, h, f,
+-                               GRALLOC_USAGE_PRIVATE_IOMMU_HEAP);
++                               GRALLOC_USAGE_PRIVATE_IOMMU_HEAP | GRALLOC_USAGE_PRIVATE_UI_CONTIG_HEAP);
+         }
+         if(ret < 0) {
+             freeRenderBuffers();
+-- 
+1.8.3.2
+

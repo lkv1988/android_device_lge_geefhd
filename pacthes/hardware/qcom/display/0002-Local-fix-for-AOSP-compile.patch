@@ -1,7 +1,7 @@
-From 4fcbf8fd90daf6bd84e5fb262669446860c0f5a7 Mon Sep 17 00:00:00 2001
+From b1b5311400ebdcc0d39e7dff36f3e65274497daa Mon Sep 17 00:00:00 2001
 From: Keven Liu <airk908@gmail.com>
 Date: Fri, 8 Nov 2013 14:27:18 +0800
-Subject: [PATCH] Local fix for AOSP compile
+Subject: [PATCH 2/3] Local fix for AOSP compile
 
 Signed-off-by: Keven Liu <airk908@gmail.com>
 ---
@@ -24,5 +24,5 @@ index 0684b3d..c55164e 100644
      status = stretch_copybit_internal(dev, dst, src, &dr, &sr, region, false);
      pthread_mutex_unlock(&ctx->wait_cleanup_lock);
 -- 
-1.8.4.2
+1.8.3.2
 

@@ -1,0 +1,67 @@
+From b66ab1284729c1a95dfee953c11e294274838c15 Mon Sep 17 00:00:00 2001
+From: Kevin Liu <airk908@gmail.com>
+Date: Wed, 25 Dec 2013 12:02:03 +0800
+Subject: [PATCH 2/2] Fix camera preview issue, no buffer for preview.
+
+BufferQueue doesn't have enough buffer for camera's previewing
+
+Signed-off-by: Kevin Liu <airk908@gmail.com>
+---
+ include/camera/CameraParameters.h                         | 15 ---------------
+ .../libcameraservice/device1/CameraHardwareInterface.h    | 10 +++++++---
+ 2 files changed, 7 insertions(+), 18 deletions(-)
+
+diff --git a/include/camera/CameraParameters.h b/include/camera/CameraParameters.h
+index 2758989..eb48a20 100644
+--- a/include/camera/CameraParameters.h
++++ b/include/camera/CameraParameters.h
+@@ -36,21 +36,6 @@ struct Size {
+         height = h;
+     }
+ };
+-#ifdef QCOM_HARDWARE
+-struct FPSRange{
+-    int minFPS;
+-    int maxFPS;
+-
+-    FPSRange(){
+-        minFPS=0;
+-        maxFPS=0;
+-    };
+-    FPSRange(int min,int max){
+-        minFPS=min;
+-        maxFPS=max;
+-   };
+-};
+-#endif
+ class CameraParameters
+ {
+ public:
+diff --git a/services/camera/libcameraservice/device1/CameraHardwareInterface.h b/services/camera/libcameraservice/device1/CameraHardwareInterface.h
+index 87b2807..85f975d 100644
+--- a/services/camera/libcameraservice/device1/CameraHardwareInterface.h
++++ b/services/camera/libcameraservice/device1/CameraHardwareInterface.h
+@@ -451,13 +451,17 @@ private:
+         ALOGV("%s", __FUNCTION__);
+         CameraHardwareInterface *__this =
+                 static_cast<CameraHardwareInterface *>(user);
+-        sp<CameraHeapMemory> mem(static_cast<CameraHeapMemory *>(data->handle));
+-        if (index >= mem->mNumBufs) {
++        if (data != NULL) {
++          sp<CameraHeapMemory> mem(static_cast<CameraHeapMemory *>(data->handle));
++          if (index >= mem->mNumBufs) {
+             ALOGE("%s: invalid buffer index %d, max allowed is %d", __FUNCTION__,
+                  index, mem->mNumBufs);
+             return;
++          }
++          __this->mDataCb(msg_type, mem->mBuffers[index], metadata, __this->mCbUser);
++        } else {
++          __this->mDataCb(msg_type, NULL, metadata, __this->mCbUser);
+         }
+-        __this->mDataCb(msg_type, mem->mBuffers[index], metadata, __this->mCbUser);
+     }
+ 
+     static void __data_cb_timestamp(nsecs_t timestamp, int32_t msg_type,
+-- 
+1.8.3.2
+
