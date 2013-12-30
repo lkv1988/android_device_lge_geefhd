@@ -18,7 +18,8 @@ PRODUCT_COPY_FILES += \
     device/lge/geefhd/config/gps.conf:system/etc/gps.conf \
     device/lge/geefhd/config/BCM4334B0_002.001.013.0271.0333.hcd:system/etc/firmware/BCM4334B0_002.001.013.0271.0333.hcd \
     device/lge/geefhd/config/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf \
-	device/lge/geefhd/prebuilt/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so
+	device/lge/geefhd/prebuilt/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so \
+	device/lge/geefhd/bootanimation.zip:system/media/bootanimation.zip
 
 # Camera BINs
 PRODUCT_COPY_FILES += \

@@ -24,3 +24,24 @@
 <5>[   14.388458 / 12-13 02:54:23.900] type=1400 audit(1386903263.900:3): avc:  denied  { add_name } for  pid=198 comm="sensors.qcom" name="9999" scontext=u:r:sensors:s0 tcontext=u:object_r:cgroup:s0 tclass=dir
 <5>[   14.388519 / 12-13 02:54:23.900] type=1400 audit(1386903263.900:4): avc:  denied  { create } for  pid=198 comm="sensors.qcom" name="9999" scontext=u:r:sensors:s0 tcontext=u:object_r:cgroup:s0 tclass=dir
 
+
+Headphone issue while in-call
+V/audio_hw_primary(  207): start_voice_call: enter
+D/audio_hw_primary(  207): select_devices: out_snd_device(7: voice-headphones) in_snd_device(26: voice-dmic-ef)
+V/audio_hw_primary(  207): enable_snd_device: snd_device(7: voice-headphones) is already active
+V/audio_hw_primary(  207): enable_snd_device: snd_device(26: voice-dmic-ef)
+V/audio_hw_primary(  207): enable_audio_route: enter: usecase(6)
+V/audio_hw_primary(  207): enable_audio_route: apply mixer path: voice-call
+V/audio_hw_primary(  207): enable_audio_route: exit
+V/audio_hw_primary(  207): start_voice_call: Opening PCM playback device card_id(0) device_id(12)
+V/audio_hw_primary(  207): start_voice_call: Opening PCM capture device card_id(0) device_id(12)
+E/audio_hw_primary(  207): start_voice_call: platform_start_voice_call error -1
+V/audio_hw_primary(  207): stop_voice_call: enter
+V/audio_hw_primary(  207): disable_audio_route: enter: usecase(6)
+V/audio_hw_primary(  207): disable_audio_route: reset mixer path: voice-call
+V/audio_hw_primary(  207): disable_audio_route: exit
+V/audio_hw_primary(  207): disable_snd_device: snd_device(26: voice-dmic-ef)
+V/audio_hw_primary(  207): stop_voice_call: exit: status(-1)
+D/audio_hw_primary(  207): start_voice_call: exit: status(-1)
+V/audio_hw_primary(  207): out_set_parameters: exit: code(1)
+
